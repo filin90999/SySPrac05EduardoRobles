@@ -1,0 +1,265 @@
+%% Practica 5 Series de Fourier en tiempo continuo
+%
+% Materia: _Señales y Sistemas_
+%
+% Profesor: _Dr. Rafael Martínez Martínez_
+%
+% Grupo: _2TV1_
+%
+% Alumnos:
+% 
+% _Panama Segura Sayuri_
+%
+% _Perez Escobar Hiram Etzael_
+%
+% _Robles Filio Eduardo_ 
+%
+% _Rodriguez Moreno Luis Manuel_
+%
+%% Introducción
+%
+% *Aproximacion numerica de los coeficientes de Fourier exponencial
+% compleja*
+%
+% Podemos calcular Dn numéricamente mediante el uso de la DFT (la transformada discreta de Fourier), 
+% que utiliza las muestras deuna señal periódica $x(t)$ durante un período. El intervalo de muestreo es de $T$   
+% segundos.  Por lo tanto, hay $N_0=\frac{T_0} { T}$ número de muestras en un período $T_0$. 
+% Para encontrar la relación entre $D_n$ y las muestras de $x(t)$ 
+%
+% $D_n=\frac{1}{T_0} * \int_{T_0} x(t)*e^{-jnwot}dt$
+%
+% $=\lim_{t\to 0}$  $\frac{1}{N_0T}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn \omega_0 T}T$
+%
+%%
+% $=\lim_{t\to 0}$  $\frac{1}{N_0}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn\omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (6.60)$  
+%
+%%
+% donde $x(kT)$ es la k muestra de $x(t)$ y 
+%
+%%
+% $N_0=\frac{T_0}{T} \quad \Omega_0=\omega_0 T= \frac{2\pi}{N_0} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (6.61)$
+%%
+% En la práctica, es imposible que $T \rightarrow 0$ entonces calculamos el lado derecho de la ecuación $(6.60)$. Podemos hacer $T$ pequeña, pero no cero, 
+% lo que hará que los datos aumenten sin límite. Por lo tanto, ignoraremos el límite de $T$ en la ecuación $(6.60)$ con el 
+%  entendimiento implícito de que $T$ es razonablemente pequeño. El valor distinto de cero en $T$ dará como resultado algún error 
+% de cálculo, que es inevitable en cualquier evaluación numérica de una integral, el error resultante de una $T$ distinta 
+% de cero se denomina error de aliasing: este proceso de define como la alteracion de
+% la percepcion de un determinado movimiento a traves de nuestra percepcion o de cualquier optica, 
+% por ejemplo cuando vamos andando por la calle y al mirar la llanta de un vehiculo tenemos la percepcion
+% de que mueve en sentido contrario, es decir el vehiculo se mueve haia adelante pero las ruedas es como
+% si se movieran hacia atras.
+%
+% Por lo tanto, podemos expresarla
+% como
+%
+% $D_n=\frac{1}{N_0}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn \Omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (6.62a)$
+% 
+%%
+% Ahora, desde la ecuacion $(6.61)$, $\Omega_0 N_0 = 2\pi$ . Por lo tanto, $e^{j \Omega_0 (k + N 0)} = e^{j \Omega_0 k}$ y de la ecuación $(6.62a)$ se deduce que 
+%
+% $D_{n+N_0} = D_n \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad(6.62b)$
+%%
+% La propiedad de periodicidad $D_{n+N_0} = Dn$ significa que más allá de $n =\frac {N_0}{2}$, los coeficientes  
+% representan los valores para n negativo. Por ejemplo, cuando $N_0 = 32, D_{17} = D_{-15}, D_{18} = D_{-14}, ..., D_{31} = D_{-1}$. El ciclo se repite de nuevo desde $n = 32$ . 
+%% Ejemplo 6.1
+%
+% Función:
+%
+% $x(t)=e^{-\frac{t}{2}}$
+%
+% con:  $T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$
+%
+% Coeficientes:
+%
+% $a_0=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}\;dt=0.504$
+%
+% $a_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}cos(2nt)\;dt=0.504\frac{2}{1+16n^{2}}$
+%
+% $b_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}sen(2nt)\;dt=0.504\frac{8n}{1+16n^{2}}$
+%
+% Serie de Fourier Trigonométrica
+%
+% $x(t)=0.504[1+\sum_{n=1}^{\infty}\frac{2}{1+16n^{2}}(cos(2nt)+4nsen(2nt))]$
+%
+% Para el espectro trigonométrico necesitamos obtener los coeficientes de
+% la serie de Fourier Trigonométrica Compacta como sigue:
+% 
+% Coeficientes y ángulos
+% 
+% $C_0=a_0=0.504$
+%
+% $C_n=\sqrt{a_n^2+b_n^2}=\sqrt{(0.504\frac{2}{1+16n^{2}})^2+(0.504\frac{8n}{1+16n^{2}})^2}=0.504(\frac{2}{\sqrt{1+16n^2}})$
+%
+% $\theta_n=tan^{-1}(\frac{-b_n}{a_n})=tan^{-1}(-4n)=-tan^{-1}(4n)$
+%
+% Serie de Fourier Trigonométrica Compacta
+%
+% $x(t)=0.504+0.504\sum_{n=1}^{\infty}\frac{2}{\sqrt{1+16n^{2}}}cos(2nt-tan^{-1}(4n))]$
+%
+% Espectro trigonométrico de Fourier con 4 armónicos
+%
+% <<Ejemplo_61_4a.jpg>>
+%
+% Espectro trigonométrico de Fourier con 15 armónicos
+%
+% <<Ejemplo_61_15a.jpg>>
+% 
+% Luego obtenemos $D_0$ y $D_n$ como sigue:
+% 
+% $D_0=a_0=0.504$
+%
+% $D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$
+% 
+% Con estos datos procedemos a utilizar la función del Apéndice A con 4 armónicos y el resultado es el siguiente:
+%
+% <<Ej_61_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_61_15a.jpg>>
+%
+%% Ejemplo 6.2
+%
+% Función:
+%
+% $x(t)=\{\begin{array}{c}6t\qquad-\frac{1}{2}<t<\frac{1}{2}\\-6t+6\qquad\frac{1}{2}<t<\frac{3}{2}\end{array}$
+%
+% con:  $T_0=2 \qquad \omega_0=\frac{2\pi}{T_0}=\pi$
+%
+% Coeficientes:
+%
+% $a_0=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)\;dt=0$
+%
+% $a_n=\frac{2}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)cos(n\pi t)\;dt=0$
+%
+% Debido a la simetría de la señal $x(t)$ los coeficientes $a_0=a_n=0$
+%
+% Luego obtenemos $D_0$ y $D_n$ como sigue:
+%
+% $D_0=a_0=0$
+%
+% $D_n=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)e^{-n\pi
+% tj}\;dt=3sen(\frac{n\pi}{2})[\frac{n\pi -2j}{n^2\pi^2}]+[-e^{-1.5n\pi
+% j}+e^{-0.5n\pi j}][\frac{3}{2n\pi j}+\frac{3}{n^2\pi^2}]$
+%
+% Así la serie de Fourier exponencial compleja queda:
+%
+% $x(t)=\sum_{-\infty}^{\infty}[3sen(\frac{n\pi}{2})[\frac{n\pi
+% -2j}{n^2\pi^2}]+[-e^{-1.5n\pi j}+e^{-0.5n\pi j}][\frac{3}{2n\pi
+% j}+\frac{3}{n^2\pi^2}]]e^{n\pi jt}$
+% 
+% Con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_62_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_62_15a.jpg>>
+%
+%% Ejemplo 6.4
+%
+% Funcion:
+%
+% $x(t)=\{\begin{array}{c}0\qquad-\pi<t<-\frac{\pi}{2}\\1\qquad-\frac{\pi}{2}<t<\frac{\pi}{2}\\0\qquad\frac{\pi}{2}<t<\pi\end{array}$
+%
+% con:  $T_0=2\pi \qquad \omega_0=\frac{2\pi}{T_0}=1$
+%
+% Coeficientes exponenciales
+%
+% $D_0=\frac{1}{2}$
+%
+% $D_n=\frac{1}{n\pi}sen(\frac{n\pi}{2})$
+%
+% Serie de Fourier exponencial compleja
+%
+% $x(t)=\frac{1}{2}+\sum_{-\infty}^{\infty}\frac{1}{n\pi}sen(\frac{n\pi}{2})e^{njt}$
+%
+% Luego con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_64_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_64_15a.jpg>>
+%
+%% Ejemplo 6.5
+%
+% Función:
+%
+% $x(t)=e^{-\frac{t}{2}}$
+%
+% con:  $T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$
+%
+% Coeficientes exponenciales
+%
+% $D_0=a_0=0.504$
+%
+% $D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$
+%
+% Serie de fourier exponencial compleja
+%
+% $x(t)=0.504\sum_{-\infty}^{\infty}\frac{0.504}{1+4nj}e^{2njt}$
+%
+% Luego con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_61_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_61_15a.jpg>>
+%
+%% Ejemplo 6.7
+% 
+% Función: 
+% $x(t)=\sum_{-\infty}^{\infty}\delta(t-nT_0)$
+%
+% con:  $T_0=3 \qquad \omega_0=\frac{2\pi}{3}$
+%
+% $D_n = \frac{1}{3}$ y se mantendrá constante en todos los armónicos que
+% se utilicen
+%%
+% Serie para 4 armónicos
+%
+% <<Ej_67_4a.jpg>>
+%
+% Serie para 15 armónicos
+%
+% <<Ej_67_15a.jpg>>
+%
+%
+%% C6.2
+%
+%   x = @(t) mod(t+pi/2,2*pi) <= pi;
+%   t = linspace (-2*pi, 2*pi,1000);
+%   x = @(t) mod(t+pi/2,2*pi) <= pi;
+%   sumterms = zeros(16, length(t)); sumterms(1,:) = 1/2;
+%   for n = 1:size(sumterms,1)-1;
+%   sumterms(n+1,:) = (2/(pi*n)*sin(pi*n/2))*cos(n*t);
+%   end
+%   x_N = cumsum (sumterms); figure(1); clf; ind = 0;
+%   for N = [0,1:2:size(sumterms, 1)-1]
+%   ind = ind+1; subplot (3,3,ind);
+%   plot (t,x_N(N+1)) 
+%   plot (t,x(t), 'k--'); axis ([-2*pi 2*pi -0.2 1.2]);
+%   xlabel ('t'); 
+%   ylabel (['x_{',num2str(N),'} (t)']);
+%   end
+%
+% <<Ej_C6.2.jpg>>
+%% Apéndice A
+%
+% *Código Serie de Fourier Exponencial Compleja*
+%
+% <include>sfc.m</include>
+% 
+%% Referencias
+%
+% https://grupocarman.com/blog/efecto-aliasing/
+%
+% Lathi, B. P. (Bhagwandas Pannalal)
+% Linear systems and signals/B. P. Lathi.—2nd 
+%
+%

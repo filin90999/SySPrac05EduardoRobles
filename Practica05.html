@@ -1,0 +1,435 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Practica 5 Series de Fourier en tiempo continuo</title><meta name="generator" content="MATLAB 9.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-05-14"><meta name="DC.source" content="Practica05.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Practica 5 Series de Fourier en tiempo continuo</h1><!--introduction--><p>Materia: <i>Se&ntilde;ales y Sistemas</i></p><p>Profesor: <i>Dr. Rafael Mart&iacute;nez Mart&iacute;nez</i></p><p>Grupo: <i>2TV1</i></p><p>Alumnos:</p><p><i>Panama Segura Sayuri</i></p><p><i>Perez Escobar Hiram Etzael</i></p><p><i>Robles Filio Eduardo</i></p><p><i>Rodriguez Moreno Luis Manuel</i></p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Introducci&oacute;n</a></li><li><a href="#8">Ejemplo 6.1</a></li><li><a href="#9">Ejemplo 6.2</a></li><li><a href="#10">Ejemplo 6.4</a></li><li><a href="#11">Ejemplo 6.5</a></li><li><a href="#12">Ejemplo 6.7</a></li><li><a href="#14">C6.2</a></li><li><a href="#15">Ap&eacute;ndice A</a></li><li><a href="#16">Referencias</a></li></ul></div><h2 id="1">Introducci&oacute;n</h2><p><b>Aproximacion numerica de los coeficientes de Fourier exponencial compleja</b></p><p>Podemos calcular Dn num&eacute;ricamente mediante el uso de la DFT (la transformada discreta de Fourier), que utiliza las muestras deuna se&ntilde;al peri&oacute;dica <img src="Practica05_eq14833433867325483769.png" alt="$x(t)$"> durante un per&iacute;odo. El intervalo de muestreo es de <img src="Practica05_eq14047577632175690031.png" alt="$T$"> segundos.  Por lo tanto, hay <img src="Practica05_eq12778159265996620458.png" alt="$N_0=\frac{T_0} { T}$"> n&uacute;mero de muestras en un per&iacute;odo <img src="Practica05_eq09699377331652163485.png" alt="$T_0$">. Para encontrar la relaci&oacute;n entre <img src="Practica05_eq10922897471658752443.png" alt="$D_n$"> y las muestras de <img src="Practica05_eq14833433867325483769.png" alt="$x(t)$"></p><p><img src="Practica05_eq04846782943684232360.png" alt="$D_n=\frac{1}{T_0} * \int_{T_0} x(t)*e^{-jnwot}dt$"></p><p><img src="Practica05_eq02527626062932299428.png" alt="$=\lim_{t\to 0}$">  <img src="Practica05_eq06007010625991037612.png" alt="$\frac{1}{N_0T}$">  <img src="Practica05_eq05075630132534389314.png" alt="$\sum_{k=0}^{N_0-1} x(kT)e^{-jn \omega_0 T}T$"></p><p><img src="Practica05_eq02527626062932299428.png" alt="$=\lim_{t\to 0}$">  <img src="Practica05_eq10651586341341366428.png" alt="$\frac{1}{N_0}$">  <img src="Practica05_eq03462643349108089759.png" alt="$\sum_{k=0}^{N_0-1} x(kT)e^{-jn\omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (6.60)$"></p><p>donde <img src="Practica05_eq06905719444939904769.png" alt="$x(kT)$"> es la k muestra de <img src="Practica05_eq14833433867325483769.png" alt="$x(t)$"> y</p><p><img src="Practica05_eq16208084645565672671.png" alt="$N_0=\frac{T_0}{T} \quad \Omega_0=\omega_0 T= \frac{2\pi}{N_0} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (6.61)$"></p><p>En la pr&aacute;ctica, es imposible que <img src="Practica05_eq05130068492524870277.png" alt="$T \rightarrow 0$"> entonces calculamos el lado derecho de la ecuaci&oacute;n <img src="Practica05_eq01202519233174169810.png" alt="$(6.60)$">. Podemos hacer <img src="Practica05_eq14047577632175690031.png" alt="$T$"> peque&ntilde;a, pero no cero, lo que har&aacute; que los datos aumenten sin l&iacute;mite. Por lo tanto, ignoraremos el l&iacute;mite de <img src="Practica05_eq14047577632175690031.png" alt="$T$"> en la ecuaci&oacute;n <img src="Practica05_eq01202519233174169810.png" alt="$(6.60)$"> con el  entendimiento impl&iacute;cito de que <img src="Practica05_eq14047577632175690031.png" alt="$T$"> es razonablemente peque&ntilde;o. El valor distinto de cero en <img src="Practica05_eq14047577632175690031.png" alt="$T$"> dar&aacute; como resultado alg&uacute;n error de c&aacute;lculo, que es inevitable en cualquier evaluaci&oacute;n num&eacute;rica de una integral, el error resultante de una <img src="Practica05_eq14047577632175690031.png" alt="$T$"> distinta de cero se denomina error de aliasing: este proceso de define como la alteracion de la percepcion de un determinado movimiento a traves de nuestra percepcion o de cualquier optica, por ejemplo cuando vamos andando por la calle y al mirar la llanta de un vehiculo tenemos la percepcion de que mueve en sentido contrario, es decir el vehiculo se mueve haia adelante pero las ruedas es como si se movieran hacia atras.</p><p>Por lo tanto, podemos expresarla como</p><p><img src="Practica05_eq06802443447245725156.png" alt="$D_n=\frac{1}{N_0}$">  <img src="Practica05_eq07131276567898707332.png" alt="$\sum_{k=0}^{N_0-1} x(kT)e^{-jn \Omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (6.62a)$"></p><p>Ahora, desde la ecuacion <img src="Practica05_eq01775126483167422431.png" alt="$(6.61)$">, <img src="Practica05_eq01655125422522937491.png" alt="$\Omega_0 N_0 = 2\pi$"> . Por lo tanto, <img src="Practica05_eq04275417064133659254.png" alt="$e^{j \Omega_0 (k + N 0)} = e^{j \Omega_0 k}$"> y de la ecuaci&oacute;n <img src="Practica05_eq04627234999241414460.png" alt="$(6.62a)$"> se deduce que</p><p><img src="Practica05_eq01282540123843591952.png" alt="$D_{n+N_0} = D_n \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad(6.62b)$"></p><p>La propiedad de periodicidad <img src="Practica05_eq04256695719325100830.png" alt="$D_{n+N_0} = Dn$"> significa que m&aacute;s all&aacute; de <img src="Practica05_eq10136914576298859002.png" alt="$n =\frac {N_0}{2}$">, los coeficientes representan los valores para n negativo. Por ejemplo, cuando <img src="Practica05_eq08416247435205353498.png" alt="$N_0 = 32, D_{17} = D_{-15}, D_{18} = D_{-14}, ..., D_{31} = D_{-1}$">. El ciclo se repite de nuevo desde <img src="Practica05_eq09907834615118520930.png" alt="$n = 32$"> .</p><h2 id="8">Ejemplo 6.1</h2><p>Funci&oacute;n:</p><p><img src="Practica05_eq06101002436395843338.png" alt="$x(t)=e^{-\frac{t}{2}}$"></p><p>con:  <img src="Practica05_eq09604619485993121195.png" alt="$T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$"></p><p>Coeficientes:</p><p><img src="Practica05_eq07195647503888473123.png" alt="$a_0=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}\;dt=0.504$"></p><p><img src="Practica05_eq13145744956295871591.png" alt="$a_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}cos(2nt)\;dt=0.504\frac{2}{1+16n^{2}}$"></p><p><img src="Practica05_eq16551966659271499038.png" alt="$b_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}sen(2nt)\;dt=0.504\frac{8n}{1+16n^{2}}$"></p><p>Serie de Fourier Trigonom&eacute;trica</p><p><img src="Practica05_eq10436690197199664204.png" alt="$x(t)=0.504[1+\sum_{n=1}^{\infty}\frac{2}{1+16n^{2}}(cos(2nt)+4nsen(2nt))]$"></p><p>Para el espectro trigonom&eacute;trico necesitamos obtener los coeficientes de la serie de Fourier Trigonom&eacute;trica Compacta como sigue:</p><p>Coeficientes y &aacute;ngulos</p><p><img src="Practica05_eq06195826154917497647.png" alt="$C_0=a_0=0.504$"></p><p><img src="Practica05_eq14397954184291596972.png" alt="$C_n=\sqrt{a_n^2+b_n^2}=\sqrt{(0.504\frac{2}{1+16n^{2}})^2+(0.504\frac{8n}{1+16n^{2}})^2}=0.504(\frac{2}{\sqrt{1+16n^2}})$"></p><p><img src="Practica05_eq00903561336215319935.png" alt="$\theta_n=tan^{-1}(\frac{-b_n}{a_n})=tan^{-1}(-4n)=-tan^{-1}(4n)$"></p><p>Serie de Fourier Trigonom&eacute;trica Compacta</p><p><img src="Practica05_eq10901924468710009434.png" alt="$x(t)=0.504+0.504\sum_{n=1}^{\infty}\frac{2}{\sqrt{1+16n^{2}}}cos(2nt-tan^{-1}(4n))]$"></p><p>Espectro trigonom&eacute;trico de Fourier con 4 arm&oacute;nicos</p><p><img vspace="5" hspace="5" src="Ejemplo_61_4a.jpg" alt=""> </p><p>Espectro trigonom&eacute;trico de Fourier con 15 arm&oacute;nicos</p><p><img vspace="5" hspace="5" src="Ejemplo_61_15a.jpg" alt=""> </p><p>Luego obtenemos <img src="Practica05_eq10145827984828201794.png" alt="$D_0$"> y <img src="Practica05_eq10922897471658752443.png" alt="$D_n$"> como sigue:</p><p><img src="Practica05_eq16864225916871900812.png" alt="$D_0=a_0=0.504$"></p><p><img src="Practica05_eq04424599307635906588.png" alt="$D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$"></p><p>Con estos datos procedemos a utilizar la funci&oacute;n del Ap&eacute;ndice A con 4 arm&oacute;nicos y el resultado es el siguiente:</p><p><img vspace="5" hspace="5" src="Ej_61_4a.jpg" alt=""> </p><p>y ahora con 15 arm&oacute;nicos:</p><p><img vspace="5" hspace="5" src="Ej_61_15a.jpg" alt=""> </p><h2 id="9">Ejemplo 6.2</h2><p>Funci&oacute;n:</p><p><img src="Practica05_eq02738866139020038417.png" alt="$x(t)=\{\begin{array}{c}6t\qquad-\frac{1}{2}<t<\frac{1}{2}\\-6t+6\qquad\frac{1}{2}<t<\frac{3}{2}\end{array}$"></p><p>con:  <img src="Practica05_eq17999488192625243713.png" alt="$T_0=2 \qquad \omega_0=\frac{2\pi}{T_0}=\pi$"></p><p>Coeficientes:</p><p><img src="Practica05_eq12305237217198406678.png" alt="$a_0=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)\;dt=0$"></p><p><img src="Practica05_eq17047741865211954861.png" alt="$a_n=\frac{2}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)cos(n\pi t)\;dt=0$"></p><p>Debido a la simetr&iacute;a de la se&ntilde;al <img src="Practica05_eq14833433867325483769.png" alt="$x(t)$"> los coeficientes <img src="Practica05_eq13844031523365800707.png" alt="$a_0=a_n=0$"></p><p>Luego obtenemos <img src="Practica05_eq10145827984828201794.png" alt="$D_0$"> y <img src="Practica05_eq10922897471658752443.png" alt="$D_n$"> como sigue:</p><p><img src="Practica05_eq12336761580951831697.png" alt="$D_0=a_0=0$"></p><p><img src="Practica05_eq00275619288744791553.png" alt="$D_n=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)e^{-n\pi tj}\;dt=3sen(\frac{n\pi}{2})[\frac{n\pi -2j}{n^2\pi^2}]+[-e^{-1.5n\pi j}+e^{-0.5n\pi j}][\frac{3}{2n\pi j}+\frac{3}{n^2\pi^2}]$"></p><p>As&iacute; la serie de Fourier exponencial compleja queda:</p><p><img src="Practica05_eq08829980066059196316.png" alt="$x(t)=\sum_{-\infty}^{\infty}[3sen(\frac{n\pi}{2})[\frac{n\pi -2j}{n^2\pi^2}]+[-e^{-1.5n\pi j}+e^{-0.5n\pi j}][\frac{3}{2n\pi j}+\frac{3}{n^2\pi^2}]]e^{n\pi jt}$"></p><p>Con estos datos procedemos a utilizar la funci&oacute;n del Ap&eacute;ndice A con 4 arm&oacute;nicos y el resultado es el siguiente:</p><p><img vspace="5" hspace="5" src="Ej_62_4a.jpg" alt=""> </p><p>y ahora con 15 arm&oacute;nicos:</p><p><img vspace="5" hspace="5" src="Ej_62_15a.jpg" alt=""> </p><h2 id="10">Ejemplo 6.4</h2><p>Funcion:</p><p><img src="Practica05_eq13966795063753228476.png" alt="$x(t)=\{\begin{array}{c}0\qquad-\pi<t<-\frac{\pi}{2}\\1\qquad-\frac{\pi}{2}<t<\frac{\pi}{2}\\0\qquad\frac{\pi}{2}<t<\pi\end{array}$"></p><p>con:  <img src="Practica05_eq11947739367053143804.png" alt="$T_0=2\pi \qquad \omega_0=\frac{2\pi}{T_0}=1$"></p><p>Coeficientes exponenciales</p><p><img src="Practica05_eq03343156458115250703.png" alt="$D_0=\frac{1}{2}$"></p><p><img src="Practica05_eq03406278263652763021.png" alt="$D_n=\frac{1}{n\pi}sen(\frac{n\pi}{2})$"></p><p>Serie de Fourier exponencial compleja</p><p><img src="Practica05_eq07583363974518046828.png" alt="$x(t)=\frac{1}{2}+\sum_{-\infty}^{\infty}\frac{1}{n\pi}sen(\frac{n\pi}{2})e^{njt}$"></p><p>Luego con estos datos procedemos a utilizar la funci&oacute;n del Ap&eacute;ndice A con 4 arm&oacute;nicos y el resultado es el siguiente:</p><p><img vspace="5" hspace="5" src="Ej_64_4a.jpg" alt=""> </p><p>y ahora con 15 arm&oacute;nicos:</p><p><img vspace="5" hspace="5" src="Ej_64_15a.jpg" alt=""> </p><h2 id="11">Ejemplo 6.5</h2><p>Funci&oacute;n:</p><p><img src="Practica05_eq06101002436395843338.png" alt="$x(t)=e^{-\frac{t}{2}}$"></p><p>con:  <img src="Practica05_eq09604619485993121195.png" alt="$T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$"></p><p>Coeficientes exponenciales</p><p><img src="Practica05_eq16864225916871900812.png" alt="$D_0=a_0=0.504$"></p><p><img src="Practica05_eq04424599307635906588.png" alt="$D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$"></p><p>Serie de fourier exponencial compleja</p><p><img src="Practica05_eq07380539059753261198.png" alt="$x(t)=0.504\sum_{-\infty}^{\infty}\frac{0.504}{1+4nj}e^{2njt}$"></p><p>Luego con estos datos procedemos a utilizar la funci&oacute;n del Ap&eacute;ndice A con 4 arm&oacute;nicos y el resultado es el siguiente:</p><p><img vspace="5" hspace="5" src="Ej_61_4a.jpg" alt=""> </p><p>y ahora con 15 arm&oacute;nicos:</p><p><img vspace="5" hspace="5" src="Ej_61_15a.jpg" alt=""> </p><h2 id="12">Ejemplo 6.7</h2><p>Funci&oacute;n: <img src="Practica05_eq17703627941563290876.png" alt="$x(t)=\sum_{-\infty}^{\infty}\delta(t-nT_0)$"></p><p>con:  <img src="Practica05_eq16257383750009778298.png" alt="$T_0=3 \qquad \omega_0=\frac{2\pi}{3}$"></p><p><img src="Practica05_eq10955173571596245467.png" alt="$D_n = \frac{1}{3}$"> y se mantendr&aacute; constante en todos los arm&oacute;nicos que se utilicen</p><p>Serie para 4 arm&oacute;nicos</p><p><img vspace="5" hspace="5" src="Ej_67_4a.jpg" alt=""> </p><p>Serie para 15 arm&oacute;nicos</p><p><img vspace="5" hspace="5" src="Ej_67_15a.jpg" alt=""> </p><h2 id="14">C6.2</h2><pre class="language-matlab">x = @(t) mod(t+pi/2,2*pi) &lt;= pi;
+t = linspace (-2*pi, 2*pi,1000);
+x = @(t) mod(t+pi/2,2*pi) &lt;= pi;
+sumterms = zeros(16, length(t)); sumterms(1,:) = 1/2;
+<span class="keyword">for</span> n = 1:size(sumterms,1)-1;
+sumterms(n+1,:) = (2/(pi*n)*sin(pi*n/2))*cos(n*t);
+<span class="keyword">end</span>
+x_N = cumsum (sumterms); figure(1); clf; ind = 0;
+<span class="keyword">for</span> N = [0,1:2:size(sumterms, 1)-1]
+ind = ind+1; subplot (3,3,ind);
+plot (t,x_N(N+1))
+plot (t,x(t), <span class="string">'k--'</span>); axis ([-2*pi 2*pi -0.2 1.2]);
+xlabel (<span class="string">'t'</span>);
+ylabel ([<span class="string">'x_{'</span>,num2str(N),<span class="string">'} (t)'</span>]);
+<span class="keyword">end</span>
+</pre><p><img vspace="5" hspace="5" src="Ej_C6.2.jpg" alt=""> </p><h2 id="15">Ap&eacute;ndice A</h2><p><b>C&oacute;digo Serie de Fourier Exponencial Compleja</b></p><pre class="language-matlab">
+<span class="keyword">function</span> sfc(t0,tf,dn,d0,f,armo,a,b)
+<span class="comment">% t0 el valor inicial para calcular la serie</span>
+<span class="comment">% tf el valor final donde calcular la serie</span>
+<span class="comment">% dn funci&oacute;n de la f&oacute;rmula de los dn</span>
+<span class="comment">% f funci&oacute;n original</span>
+<span class="comment">% armo n&uacute;mero de armonicos a utilizar en la gr&aacute;fica</span>
+<span class="comment">% a, b intevalo para realizar la grafica de la serie</span>
+w0=2*pi/(tf-t0);
+
+sf=d0;
+t=a:0.0001:b;
+
+<span class="keyword">for</span> n=1:armo
+    sf=sf+dn(-n)*exp(w0*-n*t*j)+dn(n)*exp(w0*n*t*j);
+<span class="keyword">end</span>
+figure (1)
+hFig = figure(1);
+set(hFig, <span class="string">'Position'</span>, [0 0 900 900])
+subplot(3,2,1)
+plot(t,sf,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+legend(<span class="string">'Serie de Fourier'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+
+sf=d0;
+t1=t0:0.0001:tf;
+
+<span class="keyword">for</span> n=1:armo
+    sf=sf+dn(-n)*exp(w0*-n*t1*j)+dn(n)*exp(w0*n*t1*j);
+<span class="keyword">end</span>
+
+subplot(3,2,2)
+plot(t1,f(t1),<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,2)
+grid <span class="string">on</span>
+hold <span class="string">on</span>
+plot(t1,sf,<span class="string">'LineWidth'</span>,2)
+legend(<span class="string">'Funci&oacute;n original'</span>,<span class="string">'Serie de Fourier '</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+nn=-armo:armo;
+axis <span class="string">auto</span>
+
+subplot(3,2,4)
+e=f(t1)-sf;
+plot(t1,e,<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Error'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+
+subplot(3,2,6)
+e=f(t1)-sf;
+area(t1,e.^2)
+legend(<span class="string">'Energia del error'</span>,<span class="string">'Location'</span>,<span class="string">'Best'</span>)
+xlabel(<span class="string">'t'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+axis <span class="string">auto</span>
+grid <span class="string">on</span>
+
+absdn=zeros(1,length(nn));
+cont=1;
+<span class="keyword">for</span> i =-armo:armo
+    <span class="keyword">if</span> i==0
+        absdn(cont)=d0;
+    <span class="keyword">end</span>
+    
+    absdn(cont)=dn(i);
+    cont=cont+1;
+<span class="keyword">end</span>
+
+subplot(3,2,3)
+stem(w0*nn,abs(absdn),<span class="string">'LineWidth'</span>,2)
+title(<span class="string">'Espectro de magnitud D_n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+
+subplot(3,2,5) <span class="comment">% % </span>
+stem(w0*nn,angle(absdn),<span class="string">'LineWidth'</span>,2) <span class="comment">% % </span>
+title(<span class="string">'Espectro de fase, \angle de D_n '</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16) <span class="comment">% % </span>
+xlabel(<span class="string">'\omega'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16)
+grid <span class="string">on</span>
+
+<span class="keyword">end</span>
+
+</pre><h2 id="16">Referencias</h2><p>https://grupocarman.com/blog/efecto-aliasing/</p><p>Lathi, B. P. (Bhagwandas Pannalal) Linear systems and signals/B. P. Lathi.&#8212;2nd</p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Practica 5 Series de Fourier en tiempo continuo
+%
+% Materia: _Señales y Sistemas_
+%
+% Profesor: _Dr. Rafael Martínez Martínez_
+%
+% Grupo: _2TV1_
+%
+% Alumnos:
+% 
+% _Panama Segura Sayuri_
+%
+% _Perez Escobar Hiram Etzael_
+%
+% _Robles Filio Eduardo_ 
+%
+% _Rodriguez Moreno Luis Manuel_
+%
+%% Introducción
+%
+% *Aproximacion numerica de los coeficientes de Fourier exponencial
+% compleja*
+%
+% Podemos calcular Dn numéricamente mediante el uso de la DFT (la transformada discreta de Fourier), 
+% que utiliza las muestras deuna señal periódica $x(t)$ durante un período. El intervalo de muestreo es de $T$   
+% segundos.  Por lo tanto, hay $N_0=\frac{T_0} { T}$ número de muestras en un período $T_0$. 
+% Para encontrar la relación entre $D_n$ y las muestras de $x(t)$ 
+%
+% $D_n=\frac{1}{T_0} * \int_{T_0} x(t)*e^{-jnwot}dt$
+%
+% $=\lim_{t\to 0}$  $\frac{1}{N_0T}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn \omega_0 T}T$
+%
+%%
+% $=\lim_{t\to 0}$  $\frac{1}{N_0}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn\omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad (6.60)$  
+%
+%%
+% donde $x(kT)$ es la k muestra de $x(t)$ y 
+%
+%%
+% $N_0=\frac{T_0}{T} \quad \Omega_0=\omega_0 T= \frac{2\pi}{N_0} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad  (6.61)$
+%%
+% En la práctica, es imposible que $T \rightarrow 0$ entonces calculamos el lado derecho de la ecuación $(6.60)$. Podemos hacer $T$ pequeña, pero no cero, 
+% lo que hará que los datos aumenten sin límite. Por lo tanto, ignoraremos el límite de $T$ en la ecuación $(6.60)$ con el 
+%  entendimiento implícito de que $T$ es razonablemente pequeño. El valor distinto de cero en $T$ dará como resultado algún error 
+% de cálculo, que es inevitable en cualquier evaluación numérica de una integral, el error resultante de una $T$ distinta 
+% de cero se denomina error de aliasing: este proceso de define como la alteracion de
+% la percepcion de un determinado movimiento a traves de nuestra percepcion o de cualquier optica, 
+% por ejemplo cuando vamos andando por la calle y al mirar la llanta de un vehiculo tenemos la percepcion
+% de que mueve en sentido contrario, es decir el vehiculo se mueve haia adelante pero las ruedas es como
+% si se movieran hacia atras.
+%
+% Por lo tanto, podemos expresarla
+% como
+%
+% $D_n=\frac{1}{N_0}$  $\sum_{k=0}^{N_0-1} x(kT)e^{-jn \Omega_0 T} \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad (6.62a)$
+% 
+%%
+% Ahora, desde la ecuacion $(6.61)$, $\Omega_0 N_0 = 2\pi$ . Por lo tanto, $e^{j \Omega_0 (k + N 0)} = e^{j \Omega_0 k}$ y de la ecuación $(6.62a)$ se deduce que 
+%
+% $D_{n+N_0} = D_n \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \quad \qquad \qquad \qquad(6.62b)$
+%%
+% La propiedad de periodicidad $D_{n+N_0} = Dn$ significa que más allá de $n =\frac {N_0}{2}$, los coeficientes  
+% representan los valores para n negativo. Por ejemplo, cuando $N_0 = 32, D_{17} = D_{-15}, D_{18} = D_{-14}, ..., D_{31} = D_{-1}$. El ciclo se repite de nuevo desde $n = 32$ . 
+%% Ejemplo 6.1
+%
+% Función:
+%
+% $x(t)=e^{-\frac{t}{2}}$
+%
+% con:  $T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$
+%
+% Coeficientes:
+%
+% $a_0=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}\;dt=0.504$
+%
+% $a_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}cos(2nt)\;dt=0.504\frac{2}{1+16n^{2}}$
+%
+% $b_n=\frac{2}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}sen(2nt)\;dt=0.504\frac{8n}{1+16n^{2}}$
+%
+% Serie de Fourier Trigonométrica
+%
+% $x(t)=0.504[1+\sum_{n=1}^{\infty}\frac{2}{1+16n^{2}}(cos(2nt)+4nsen(2nt))]$
+%
+% Para el espectro trigonométrico necesitamos obtener los coeficientes de
+% la serie de Fourier Trigonométrica Compacta como sigue:
+% 
+% Coeficientes y ángulos
+% 
+% $C_0=a_0=0.504$
+%
+% $C_n=\sqrt{a_n^2+b_n^2}=\sqrt{(0.504\frac{2}{1+16n^{2}})^2+(0.504\frac{8n}{1+16n^{2}})^2}=0.504(\frac{2}{\sqrt{1+16n^2}})$
+%
+% $\theta_n=tan^{-1}(\frac{-b_n}{a_n})=tan^{-1}(-4n)=-tan^{-1}(4n)$
+%
+% Serie de Fourier Trigonométrica Compacta
+%
+% $x(t)=0.504+0.504\sum_{n=1}^{\infty}\frac{2}{\sqrt{1+16n^{2}}}cos(2nt-tan^{-1}(4n))]$
+%
+% Espectro trigonométrico de Fourier con 4 armónicos
+%
+% <<Ejemplo_61_4a.jpg>>
+%
+% Espectro trigonométrico de Fourier con 15 armónicos
+%
+% <<Ejemplo_61_15a.jpg>>
+% 
+% Luego obtenemos $D_0$ y $D_n$ como sigue:
+% 
+% $D_0=a_0=0.504$
+%
+% $D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$
+% 
+% Con estos datos procedemos a utilizar la función del Apéndice A con 4 armónicos y el resultado es el siguiente:
+%
+% <<Ej_61_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_61_15a.jpg>>
+%
+%% Ejemplo 6.2
+%
+% Función:
+%
+% $x(t)=\{\begin{array}{c}6t\qquad-\frac{1}{2}<t<\frac{1}{2}\\-6t+6\qquad\frac{1}{2}<t<\frac{3}{2}\end{array}$
+%
+% con:  $T_0=2 \qquad \omega_0=\frac{2\pi}{T_0}=\pi$
+%
+% Coeficientes:
+%
+% $a_0=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)\;dt=0$
+%
+% $a_n=\frac{2}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)cos(n\pi t)\;dt=0$
+%
+% Debido a la simetría de la señal $x(t)$ los coeficientes $a_0=a_n=0$
+%
+% Luego obtenemos $D_0$ y $D_n$ como sigue:
+%
+% $D_0=a_0=0$
+%
+% $D_n=\frac{1}{2}\int_{-\frac{1}{2}}^{\frac{3}{2}}x(t)e^{-n\pi
+% tj}\;dt=3sen(\frac{n\pi}{2})[\frac{n\pi -2j}{n^2\pi^2}]+[-e^{-1.5n\pi
+% j}+e^{-0.5n\pi j}][\frac{3}{2n\pi j}+\frac{3}{n^2\pi^2}]$
+%
+% Así la serie de Fourier exponencial compleja queda:
+%
+% $x(t)=\sum_{-\infty}^{\infty}[3sen(\frac{n\pi}{2})[\frac{n\pi
+% -2j}{n^2\pi^2}]+[-e^{-1.5n\pi j}+e^{-0.5n\pi j}][\frac{3}{2n\pi
+% j}+\frac{3}{n^2\pi^2}]]e^{n\pi jt}$
+% 
+% Con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_62_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_62_15a.jpg>>
+%
+%% Ejemplo 6.4
+%
+% Funcion:
+%
+% $x(t)=\{\begin{array}{c}0\qquad-\pi<t<-\frac{\pi}{2}\\1\qquad-\frac{\pi}{2}<t<\frac{\pi}{2}\\0\qquad\frac{\pi}{2}<t<\pi\end{array}$
+%
+% con:  $T_0=2\pi \qquad \omega_0=\frac{2\pi}{T_0}=1$
+%
+% Coeficientes exponenciales
+%
+% $D_0=\frac{1}{2}$
+%
+% $D_n=\frac{1}{n\pi}sen(\frac{n\pi}{2})$
+%
+% Serie de Fourier exponencial compleja
+%
+% $x(t)=\frac{1}{2}+\sum_{-\infty}^{\infty}\frac{1}{n\pi}sen(\frac{n\pi}{2})e^{njt}$
+%
+% Luego con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_64_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_64_15a.jpg>>
+%
+%% Ejemplo 6.5
+%
+% Función:
+%
+% $x(t)=e^{-\frac{t}{2}}$
+%
+% con:  $T_0=\pi \qquad \omega_0=\frac{2\pi}{T_0}=2\frac{rad}{s}$
+%
+% Coeficientes exponenciales
+%
+% $D_0=a_0=0.504$
+%
+% $D_n=\frac{1}{\pi}\int_{0}^{\pi}e^{-\frac{t}{2}}e^{-2njt}\;dt=-\frac{2}{\pi}(e^{-\frac{\pi}{2}}-1)\frac{1}{1+4nj}=0.5042\frac{1}{1+4nj}$
+%
+% Serie de fourier exponencial compleja
+%
+% $x(t)=0.504\sum_{-\infty}^{\infty}\frac{0.504}{1+4nj}e^{2njt}$
+%
+% Luego con estos datos procedemos a utilizar la función del Apéndice A con 4
+% armónicos y el resultado es el siguiente: 
+%
+% <<Ej_61_4a.jpg>>
+%
+% y ahora con 15 armónicos:
+% 
+% <<Ej_61_15a.jpg>>
+%
+%% Ejemplo 6.7
+% 
+% Función: 
+% $x(t)=\sum_{-\infty}^{\infty}\delta(t-nT_0)$
+%
+% con:  $T_0=3 \qquad \omega_0=\frac{2\pi}{3}$
+%
+% $D_n = \frac{1}{3}$ y se mantendrá constante en todos los armónicos que
+% se utilicen
+%%
+% Serie para 4 armónicos
+%
+% <<Ej_67_4a.jpg>>
+%
+% Serie para 15 armónicos
+%
+% <<Ej_67_15a.jpg>>
+%
+%
+%% C6.2
+%
+%   x = @(t) mod(t+pi/2,2*pi) <= pi;
+%   t = linspace (-2*pi, 2*pi,1000);
+%   x = @(t) mod(t+pi/2,2*pi) <= pi;
+%   sumterms = zeros(16, length(t)); sumterms(1,:) = 1/2;
+%   for n = 1:size(sumterms,1)-1;
+%   sumterms(n+1,:) = (2/(pi*n)*sin(pi*n/2))*cos(n*t);
+%   end
+%   x_N = cumsum (sumterms); figure(1); clf; ind = 0;
+%   for N = [0,1:2:size(sumterms, 1)-1]
+%   ind = ind+1; subplot (3,3,ind);
+%   plot (t,x_N(N+1)) 
+%   plot (t,x(t), 'kREPLACE_WITH_DASH_DASH'); axis ([-2*pi 2*pi -0.2 1.2]);
+%   xlabel ('t'); 
+%   ylabel (['x_{',num2str(N),'} (t)']);
+%   end
+%
+% <<Ej_C6.2.jpg>>
+%% Apéndice A
+%
+% *Código Serie de Fourier Exponencial Compleja*
+%
+% <include>sfc.m</include>
+% 
+%% Referencias
+%
+% https://grupocarman.com/blog/efecto-aliasing/
+%
+% Lathi, B. P. (Bhagwandas Pannalal)
+% Linear systems and signals/B. P. Lathi.—2nd 
+%
+%
+##### SOURCE END #####
+--></body></html>
